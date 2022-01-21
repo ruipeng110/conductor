@@ -1,0 +1,54 @@
+buildscript {
+    dependencies {
+        "org.springframework.boot:spring-boot-gradle-plugin:2.1.1.RELEASE"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.springframework.boot'
+}
+
+group 'com.netflix.conductor'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:2.1.1.RELEASE'
+    implementation project(':conductor-client-spring')
+    implementation project(':conductor-client')
+    implementation project(':conductor-common')
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    implementation 'org.apache.logging.log4j:log4j-web'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+jar {
+    enabled = true
+}
+
+bootJar {
+    mainClassName = 'ogv.activity.conductor.task.define.Application'
+    classifier = 'boot'
+}
+
+springBoot {
+    buildInfo()
+}
+
+
+test {
+    useJUnitPlatform()
+}
