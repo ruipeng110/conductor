@@ -5,6 +5,8 @@ import com.netflix.conductor.common.metadata.tasks.Task.Status;
 import com.netflix.conductor.contribs.queue.amqp.config.AMQPEventQueueProperties;
 import com.netflix.conductor.core.events.queue.Message;
 import com.netflix.conductor.core.events.queue.ObservableQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,9 +17,7 @@ import rx.Subscriber;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +29,8 @@ public class LocalQueueConfiguration {
 
     private static LinkedBlockingQueue<Message> memoryQueue = new LinkedBlockingQueue<>();
 
+    private static final Logger logger = LoggerFactory.getLogger(LocalQueueConfiguration.class);
+
     @Bean
     public Map<Status, ObservableQueue> getQueues() {
         return Map.of(Status.COMPLETED, new ObservableQueue() {
@@ -38,18 +40,20 @@ public class LocalQueueConfiguration {
                 return Observable.create(
 
                         new Observable.OnSubscribe<Message>() {
-                    @Override
-                    public void call(Subscriber<? super Message> subscriber) {
-                        new Thread(()->{
-                            Message msg = null;
-                            try {
-                                msg = memoryQueue.take();
-                            } catch (InterruptedException e) {}
-                            subscriber.onNext(msg);
-                            subscriber.onCompleted();
-                        }).start();
-                    }
-                });
+                            @Override
+                            public void call(Subscriber<? super Message> subscriber) {
+                                new Thread(() -> {
+                                    while (true) {
+                                        try {
+                                            Message msg = memoryQueue.take();
+                                            subscriber.onNext(msg);
+                                        } catch (Exception e) {
+                                            logger.error(e.getMessage(), e);
+                                        }
+                                    }
+                                }).start();
+                            }
+                        });
             }
 
             @Override
