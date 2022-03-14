@@ -11,6 +11,23 @@ buildscript {
 
 apply plugin: 'com.github.spotbugs'
 apply plugin: 'pmd'
+apply plugin: 'maven-publish'
+
+
+group = 'com.netflix.conductor'
+version = '9.9.9-SNAPSHOT'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+}
 
 configurations.all {
     exclude group: 'amazon', module: 'aws-java-sdk'
