@@ -3,7 +3,7 @@ const target = process.env.WF_SERVER || "http://localhost:8080";
 
 module.exports = function (app) {
   app.use(
-    "/api",
+    "/pgc/admin/activity/conductor/api",
     createProxyMiddleware({
       target: target,
       //pathRewrite: { '^/': '/api/'},

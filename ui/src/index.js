@@ -22,7 +22,7 @@ ReactDOM.render(
   //<React.StrictMode>
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/pgc/admin/activity/conductor/ui">
         <CssBaseline />
         <ReactQueryDevtools initialIsOpen={true} />
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import imgURL from '../logo.png';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -10,5 +11,5 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppLogo() {
   const classes = useStyles();
-  return <img src="/logo.png" alt="Conductor" className={classes.logo} />;
+  return <img src={imgURL} alt="Conductor" className={classes.logo} />;
 }

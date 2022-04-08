@@ -10,7 +10,7 @@ export function useFetchContext() {
 export function fetchWithContext(path, context, fetchParams) {
   const newParams = { ...fetchParams };
 
-  const newPath = `/api/${path}`;
+  const newPath = `/pgc/admin/activity/conductor/api/${path}`;
   const cleanPath = newPath.replace(/([^:]\/)\/+/g, "$1"); // Cleanup duplicated slashes
 
   return fetch(cleanPath, newParams).then(res => res.text())

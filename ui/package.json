@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "homepage": "/pgc/admin/activity/conductor/ui/",
   "version": "3.3.0",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -38,6 +39,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "debug": "export WF_SERVER=http://localhost:8083&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -80,7 +82,8 @@
     "node-sass": "^6.0.1",
     "prettier": "^2.2.1",
     "webdriver": "^5.0.0",
-    "webdriverio": "^5.0.0"
+    "webdriverio": "^5.0.0",
+    "webpack": "4.44.2"
   },
   "engines": {
     "node": ">=14.17.0"
