@@ -268,7 +268,7 @@ export default class WorkflowDAG {
         return this.processForkJoinDynamic(task, antecedents);
       }
 
-      case "DECISION": {
+      case "SWITCH": {
         return this.processDecisionTask(task, antecedents);
       }
 
