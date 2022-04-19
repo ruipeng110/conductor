@@ -390,10 +390,10 @@ class WorkflowGraph extends React.PureComponent {
         retval = composeBarNode(v, "up");
         this.barNodes.push(v.ref);
         break;
-      case "DECISION":
-        retval.label = v.ref;
+      case "SWITCH":
+        retval.label = v.description || v.ref;
         retval.shape = "diamond";
-        retval.height = 40;
+        // retval.height = 20;
         break;
       case "DF_EMPTY_PLACEHOLDER":
         retval.label = v.status
@@ -413,7 +413,7 @@ class WorkflowGraph extends React.PureComponent {
         retval.shape = "stack";
         break;
       default:
-        retval.label = `${v.ref}\n(${v.name})`;
+        retval.label = `${v.description || v.ref}\n(${v.name})`;
         retval.shape = "rect";
     }
 
