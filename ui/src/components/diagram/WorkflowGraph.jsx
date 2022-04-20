@@ -24,13 +24,27 @@ class WorkflowGraph extends React.PureComponent {
     this.renderer.shapes().stack = stackRenderer;
 
     this.svgRef = React.createRef();
+    this.state = {
+      moni:{}
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  static getDerivedStateFromProps(newProps, state){
+    if(newProps.moni){
+      const moni = {};
+      newProps.moni.data.result.forEach(x=>moni[x.metric.workerName] = x.values[0][1])
+      return {moni}
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const selectedRef = _.get(this.props.selectedTask, "ref");
     const dagGraph = this.props.dag.graph;
 
-    if (prevProps.dag !== this.props.dag) {
+    if (
+        prevProps.dag !== this.props.dag || prevState.moni !== this.state.moni
+      ) {
       this.drawGraph();
       this.zoomHome();
     } else if (prevProps.selectedRef !== selectedRef) {
@@ -367,7 +381,7 @@ class WorkflowGraph extends React.PureComponent {
       class: `type-${v.type}`,
       type: v.type,
     };
-
+    
     switch (v.type) {
       case "SUB_WORKFLOW":
         retval.label = `${v.ref}\n(${v.name})`;
@@ -413,7 +427,7 @@ class WorkflowGraph extends React.PureComponent {
         retval.shape = "stack";
         break;
       default:
-        retval.label = `${v.description || v.ref}\n(${v.name})`;
+        retval.label = `${v.description || v.ref}\n(${v.name})${v.ref&&this.state.moni[v.ref]&&('\n执行'+this.state.moni[v.ref]+'次')||''}`;
         retval.shape = "rect";
     }
 

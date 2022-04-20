@@ -31,6 +31,8 @@ export default function WorkflowDefinition() {
   const namesAndVersions = useWorkflowNamesAndVersions();
   let versions = namesAndVersions.get(workflowName) || [];
 
+  const {data:moniData, isFetching:moniFetching} = useFetch('/moni?query=sum(ogv_custom_activity_workflow_worker)%20by%20(workerName)');
+  console.log(moniData);
   return (
     <div className={classes.wrapper}>
       <Helmet>
@@ -66,7 +68,7 @@ export default function WorkflowDefinition() {
       <div className={classes.tabContent}>
         <Grid container>
           <Grid item xs={6}>
-            {dag && <WorkflowGraph dag={dag} />}
+            {dag && <WorkflowGraph dag={dag} moni={moniData} />}
           </Grid>
           <Grid item xs={6}>
             {workflow && <ReactJson src={workflow} />}
