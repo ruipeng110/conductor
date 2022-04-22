@@ -43,7 +43,7 @@ class WorkflowGraph extends React.PureComponent {
     const dagGraph = this.props.dag.graph;
 
     if (
-        prevProps.dag !== this.props.dag || prevState.moni !== this.state.moni
+        prevProps.dag !== this.props.dag || JSON.stringify(prevState.moni) !== JSON.stringify(this.state.moni)
       ) {
       this.drawGraph();
       this.zoomHome();
