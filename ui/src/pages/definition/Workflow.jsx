@@ -32,7 +32,7 @@ export default function WorkflowDefinition() {
   const namesAndVersions = useWorkflowNamesAndVersions();
   let versions = namesAndVersions.get(workflowName) || [];
   
-  const {data:moniData, isFetching:moniFetching} = useFetch(`/moni?query=sum(ogv_custom_activity_workflow_worker%7BworkflowName%3D%22${workflow && workflow.name}%22%7D)%20by%20(workerName)`) || {};
+  const {data:moniData, isFetching:moniFetching} = useFetch(`/moni?workflowName=${workflow && workflow.name}`) || {};
   return (
     <div className={classes.wrapper}>
       <Helmet>

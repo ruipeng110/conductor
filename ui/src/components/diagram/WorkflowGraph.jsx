@@ -427,7 +427,7 @@ class WorkflowGraph extends React.PureComponent {
         retval.shape = "stack";
         break;
       default:
-        retval.label = `${v.description || v.ref}\n(${v.name})${v.ref&&this.state.moni[v.ref]&&('\n执行'+this.state.moni[v.ref]+'次')||''}`;
+        retval.label = `${v.description || v.ref}\n(${v.name})${v.ref&&this.state.moni[v.ref]&&('\n执行'+Math.round(this.state.moni[v.ref])+'次')||''}`;
         retval.shape = "rect";
     }
 
